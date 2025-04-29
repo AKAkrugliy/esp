@@ -1,0 +1,37 @@
+      local h = Instance.new("Highlight")
+h.Name = "Highlight"
+h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+h.FillTransparency = 0.55
+h.OutlineTransparency = 0.25
+
+local hc1 = Color3.fromRGB(170, 85, 255)
+local teamColor = Color3.fromRGB(0, 255, 0)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+while task.wait(0.5) do
+    for _, v in ipairs(game.Workspace:GetChildren()) do
+        if v and v:IsA("Model") and v ~= LocalPlayer.Character then
+            local hrp = v:FindFirstChild("HumanoidRootPart")
+            local humanoid = v:FindFirstChildOfClass("Humanoid")
+            if hrp and humanoid and not hrp:FindFirstChild("Highlight") then
+                local player = Players:GetPlayerFromCharacter(v)
+                if player then
+                    local hc = h:Clone()
+                    hc.Adornee = v
+                    hc.Parent = hrp
+
+                   
+                    if player.Team == LocalPlayer.Team and player ~= LocalPlayer then
+                        hc.OutlineColor = teamColor
+                        hc.FillColor = teamColor
+                    else
+                        hc.OutlineColor = hc1
+                        hc.FillColor = hc1
+                    end
+                end
+            end
+        end
+    end
+end
